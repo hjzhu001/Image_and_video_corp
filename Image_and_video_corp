@@ -20,7 +20,7 @@ def corp_image(s,x,z,y):
 
 def corp_video(video_name,s,x,z,y):  
     vc = cv2.VideoCapture(video_name)
-    c = 0 #抽帧0开始
+    c = 0 
     i = 1
     if vc.isOpened():
         rval, frame = vc.read()
@@ -42,8 +42,8 @@ if __name__ == "__main__":
 
     """image corp"""
     os.mkdir('./image_result')
-    corp_image(600, 600, 700, 700)     # Need to specify the number of pixels on the left and right, the same below
-
+    corp_image( s, x, z, y )    #  Clip the pixel boundaries which are up, down, left and right
+                                #  Need to specify the number of pixels, the same below
     """video corp"""
     # os.mkdir('./video_result')
-    # corp_video('3.mp4',s,x,z,y)
+    # corp_video('3.mp4',s,x,z,y)   
