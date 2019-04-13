@@ -1,0 +1,49 @@
+
+import cv2,os,glob
+from PIL import Image
+
+
+def corp_image(s,x,z,y):     
+
+    src_dir = "./image/"
+    filepath = glob.glob(src_dir + '*.jpg')
+    count = 0
+    for i in range(len(filepath)):
+        img_src = cv2.imread(filepath[i])    
+        height = len(img_src)
+        width = len(img_src[0])
+        img_cut = img_src[s:int(height-x), z:int(width-y)]   
+        save_dir = "./image_result/crop{}.jpg".format(count)
+        count += 1
+        cv2.imwrite(save_dir, img_cut)
+
+
+def corp_video(video_name,s,x,z,y):  
+    vc = cv2.VideoCapture(video_name)
+    c = 0 #抽帧0开始
+    i = 1
+    if vc.isOpened():
+        rval, frame = vc.read()
+        while rval:
+
+            height = len(frame)
+            width = len(frame[0])
+            frame = frame[s:int(height-x), z:int(width-y)]  
+            cv2.imwrite(r'./video_result/' + str(i) + '.jpg', frame)  # save as image
+            cv2.waitKey(1)
+            c = c + 20
+            i = i + 1
+            rval, frame = vc.read()
+            print(rval,frame)
+    vc.release()
+
+
+if __name__ == "__main__":
+
+    """image corp"""
+    os.mkdir('./image_result')
+    corp_image(600, 600, 700, 700)     # Need to specify the number of pixels on the left and right, the same below
+
+    """video corp"""
+    # os.mkdir('./video_result')
+    # corp_video('3.mp4',s,x,z,y)
